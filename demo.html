@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Paystack Verification</title>
+    <!-- Your JavaScript file containing the Paystack class -->
+    <script src="paystack.js"></script>
+</head>
+<body>
+    <h1>Paystack Account Verification</h1>
+
+    <button id="verifyAccountBtn">Verify Account</button>
+
+    <script>
+        // Instantiate Paystack with your API key
+        const paystack = new Paystack('sk_test_4e0e54435f8873d711f92c05159e4e149c197344');
+
+        // Handle button click event for account verification
+        document.getElementById('verifyAccountBtn').addEventListener('click', async () => {
+            const accountNumber = '0558382705'; // Replace with the account number to verify
+            const bankCode = 'MTN'; // Replace with the bank code
+
+            try {
+                const verificationResult = await paystack.verifyAccount(accountNumber, bankCode);
+                console.log('Account Verification Result:', verificationResult);
+                // Handle the verification result as needed
+            } catch (error) {
+                console.error('Error during account verification:', error);
+                // Handle errors, such as displaying an error message to the user
+            }
+        });
+    </script>
+</body>
+</html>
