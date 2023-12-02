@@ -35,8 +35,15 @@ class Paystack
             if ($error) {
                 throw new Exception('Request Error: ' . $error);
             }
+			// Decode the JSON response
+			$jsonResponse = json_decode($response);
 
-            return $response;
+			if (json_last_error() !== JSON_ERROR_NONE) {
+				git rm
+                throw new Exception('Invalid JSON response');
+			}
+
+			return $jsonResponse;
         } catch (Exception $exception) {
             // Handle request exception
             return null;
@@ -148,9 +155,10 @@ class Paystack
             $fields = [
                 'email' => $email,
                 'amount' => $amount*100,
-                "bank" => [
-                    "code" => $network,
-                    "account_number" => $phone_number
+                'currency' => "GHS",
+                "mobile_money" => [
+                    "provider" => $network,
+                    "phone" => $phone_number
                 ]
             ];
             return $this->setHttp('post', '/charge', $fields);
